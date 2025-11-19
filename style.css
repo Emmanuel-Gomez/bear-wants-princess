@@ -6,11 +6,53 @@
 
 body {
     overflow: hidden;
-    background-color: #87CEEB; /* Sky blue background */
+    background-color: #87CEEB;
+    /* Sky blue background */
+    font-family: sans-serif;
 }
 
 canvas {
     display: block;
     width: 100vw;
     height: 100vh;
+}
+
+#controls {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    pointer-events: none;
+    /* Let clicks pass through */
+    user-select: none;
+}
+
+.key-row {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+.key {
+    width: 30px;
+    height: 30px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#controls p {
+    margin-top: 5px;
+    font-size: 12px;
+    opacity: 0.8;
 }
