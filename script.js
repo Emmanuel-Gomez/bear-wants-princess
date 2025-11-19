@@ -490,6 +490,34 @@ window.addEventListener('keyup', (e) => {
     }
 });
 
+// Touch Controls Logic
+const keyElements = document.querySelectorAll('.key');
+keyElements.forEach(key => {
+    const code = key.dataset.key;
+
+    const handleStart = (e) => {
+        e.preventDefault(); // Prevent default mouse/touch behavior (scrolling/zooming)
+        if (keys.hasOwnProperty(code)) {
+            keys[code] = true;
+            key.style.backgroundColor = 'rgba(255, 255, 255, 0.5)'; // Visual feedback
+        }
+    };
+
+    const handleEnd = (e) => {
+        e.preventDefault();
+        if (keys.hasOwnProperty(code)) {
+            keys[code] = false;
+            key.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'; // Reset visual
+        }
+    };
+
+    key.addEventListener('touchstart', handleStart, { passive: false });
+    key.addEventListener('touchend', handleEnd);
+    key.addEventListener('mousedown', handleStart);
+    key.addEventListener('mouseup', handleEnd);
+    key.addEventListener('mouseleave', handleEnd);
+});
+
 const moveSpeed = 0.2;
 const bearSpeed = 0.1; // Faster bear
 
@@ -628,7 +656,7 @@ function animate() {
         // Game Over (Collision)
         const distance = princess.position.distanceTo(bear.position);
         if (distance < 1.5) {
-            location.reload();
+            showGameOver();
         }
     }
 
@@ -642,6 +670,41 @@ function animate() {
     controls.update();
     renderer.render(scene, camera);
 }
+
+// Game Over UI Logic
+const gameOverScreen = document.getElementById('game-over');
+const restartBtn = document.getElementById('restart-btn');
+
+function showGameOver() {
+    gameStarted = false;
+    gameOverScreen.style.display = 'block';
+}
+
+function resetGame() {
+    // Reset Princess
+    princess.position.set(0, 0, 14);
+    princess.rotation.y = 0;
+
+    // Reset Bear
+    bear.position.set(10, 0, 10);
+    bear.userData.state = 'CHASE';
+    bear.userData.unstickTimer = 0;
+    bear.userData.turboTimer = 0;
+    bear.userData.furMaterial.color.setHex(0x8B4513); // Reset color
+    bear.userData.mouth.scale.set(0.1, 0.1, 0.1); // Close mouth
+
+    // Reset Camera
+    camera.position.set(0, 15, 30);
+    controls.target.set(0, 0, 0);
+
+    // Hide UI
+    gameOverScreen.style.display = 'none';
+
+    // Game waits for movement to start again
+    gameStarted = false;
+}
+
+restartBtn.addEventListener('click', resetGame);
 
 // Handle Resize
 window.addEventListener('resize', () => {

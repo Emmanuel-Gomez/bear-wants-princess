@@ -19,14 +19,19 @@
 <body>
     <div id="controls">
         <div class="key-row">
-            <div class="key">↑</div>
+            <div class="key" data-key="ArrowUp">↑</div>
         </div>
         <div class="key-row">
-            <div class="key">←</div>
-            <div class="key">↓</div>
-            <div class="key">→</div>
+            <div class="key" data-key="ArrowLeft">←</div>
+            <div class="key" data-key="ArrowDown">↓</div>
+            <div class="key" data-key="ArrowRight">→</div>
         </div>
         <p>Move Princess</p>
+    </div>
+    <div id="game-over">
+        <h1>Game Over!</h1>
+        <p>The bear caught you!</p>
+        <button id="restart-btn">Play Again</button>
     </div>
     <script type="module" src="script.js"></script>
 </body>
